@@ -1,0 +1,3 @@
+[submodule "src/plugins/typingparty"]
+	path = src/plugins/typingparty
+	url = https://github.com/Yeyito777/typingparty.git
