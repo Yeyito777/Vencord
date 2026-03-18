@@ -29,6 +29,7 @@ import { debounce } from "@shared/debounce";
 import { localStorage } from "@utils/localStorage";
 import { getStylusWebStoreUrl } from "@utils/web";
 import { EXTENSION_BASE_URL, metaReady, RENDERER_CSS_URL } from "@utils/web-metadata";
+import defaultSettings from "../src/defaultSettings.json";
 
 // listeners for ipc.on
 const cssListeners = new Set<(css: string) => void>();
@@ -122,10 +123,11 @@ window.VencordNative = {
     settings: {
         get: () => {
             try {
-                return JSON.parse(localStorage.getItem("VencordSettings") || "{}");
+                const stored = localStorage.getItem("VencordSettings");
+                return stored ? JSON.parse(stored) : structuredClone(defaultSettings);
             } catch (e) {
                 console.error("Failed to parse settings from localStorage: ", e);
-                return {};
+                return structuredClone(defaultSettings);
             }
         },
         set: async (s: Settings) => localStorage.setItem("VencordSettings", JSON.stringify(s)),
